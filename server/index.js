@@ -19,7 +19,7 @@ app.post('/repos', function (req, res) {
       if (err) console.error(err.errmsg);
       db.top25((err, results) => {
         if (err) console.error(err.errmsg);
-        res.send('Saved repos to database.');
+        res.send(results);
       });
     });
   })
