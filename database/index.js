@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher');
+mongoose.connect('mongodb://localhost/fetcher',  {useMongoClient: true});
 
 let repoSchema = mongoose.Schema({
   user_name: String,
-  user_id: Number
+  user_id: Number,
   user_url: String,
   repo_name: String,
   repo_id: {type: Number, unique: true},
@@ -30,8 +30,11 @@ let save = (data) => {
     });
 
     entry.save((err, row) => {
-      if (err) return console.error('Cannot save to Mongo: ' err);
-      console.log('Saved row to Mongo successfully: ', row)
+      if (err) {
+        console.error('Cannot save to Mongo: ', err.errmsg)
+      } else {
+        console.log('Saved row to Mongo successfully: ', row);
+      }
     })
   }
 }
