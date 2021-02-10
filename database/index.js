@@ -15,7 +15,8 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (data) => {
+let save = (data, callback) => {
+  let newRows = [];
   for (const repo of data) {
     let entry = new Repo({
       user_name: repo.owner.login,
@@ -29,14 +30,21 @@ let save = (data) => {
       repo_watchers_count: repo.watchers_count
     });
 
-    entry.save((err, row) => {
-      if (err) {
-        console.error('Cannot save to Mongo: ', err.errmsg)
-      } else {
-        console.log('Saved row to Mongo successfully: ', row);
-      }
-    })
+    newRows.push(entry);
   }
+
+  Repo.insertMany(newRows)
+    .then(() => callback(null))
+    .catch((err) => callback(err));
 }
 
+let top25 = (callback) => {
+  Repo.find().
+  sort('-repo_forks.count').
+  limit(25).
+  select('user_name user_id user_url repo_name repo_id repo_url repo_forks.url repo_forks.count repo_stars.url repo_stars.count repo_watchers_count').
+  exec(callback);
+};
+
 module.exports.save = save;
+module.exports.top25 = top25;
