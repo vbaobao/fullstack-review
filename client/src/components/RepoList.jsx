@@ -1,7 +1,6 @@
 import React from 'react';
 
 const RepoList = (props) => {
-  console.log(props);
   let count = 0;
   let repos = props.repos.map((repo) => {
     return (
