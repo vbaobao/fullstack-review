@@ -26,11 +26,9 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
   db.top25((err, results) => {
     if (err) console.err(err.errmsg);
-    console.log('SUCCESFULL TOP 25: ', results);
+    res.send(results);
   });
 
 });
