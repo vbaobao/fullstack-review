@@ -5,7 +5,7 @@ const RepoList = (props) => {
   let count = 0;
   let repos = props.repos.map((repo) => {
     return (
-      <tr>
+      <tr key={repo.repo_id}>
       <td>{++count}</td>
         <td><a href={repo.user_url}>{repo.user_name}</a></td>
         <td><a href={repo.repo_url}>{repo.repo_name}</a></td>
