@@ -1,5 +1,7 @@
 const axios = require('axios');
-const config = require('../config.js');
+if (process.env.NODE_ENV !== "production") {
+  const config = require('../config.js');
+}
 
 let getReposByUsername = (username, callback) => {
   let options = {
